@@ -8,7 +8,6 @@ import org.apache.lucene.analysis.core.DecimalDigitFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 import org.elasticsearch.analyzer.characterfilters.ZeroWidthNonJoinerCharFilter;
 import org.elasticsearch.analyzer.tokenfilters.PersianNormalizationFilter;
-import org.elasticsearch.analyzer.tokenfilters.PersianStemFilter;
 import org.elasticsearch.analyzer.tokenfilters.PersianStopFilter;
 
 import java.io.Reader;
@@ -18,7 +17,7 @@ import java.util.List;
 /**
  * Created by Nariman on 10/28/2017.
  */
-public class ParsiAnalyzer extends Analyzer {
+public class ParsiSearchAnalyzer extends Analyzer {
 
     public static final CharArraySet PERSIAN_STOP_WORDS_SET;
 
@@ -34,7 +33,6 @@ public class ParsiAnalyzer extends Analyzer {
         TokenStream result = new PersianStopFilter(source, PERSIAN_STOP_WORDS_SET);
         result = new DecimalDigitFilter(result);
         result = new PersianNormalizationFilter(result);
-        result = new PersianStemFilter(result);
         return new TokenStreamComponents(source, result);
     }
 

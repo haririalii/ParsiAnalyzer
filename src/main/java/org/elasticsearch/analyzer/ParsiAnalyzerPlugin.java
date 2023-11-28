@@ -3,6 +3,7 @@ package org.elasticsearch.analyzer;
 import org.apache.lucene.analysis.Analyzer;
 import org.elasticsearch.analyzer.characterfilters.ZeroWidthNonJoinerCharFilterFactory;
 import org.elasticsearch.analyzer.tokenfilters.PersianNormalizationFilterFactory;
+import org.elasticsearch.analyzer.tokenfilters.PersianSamePronunciationNormalizerFilterFactory;
 import org.elasticsearch.analyzer.tokenfilters.PersianStemFilterFactory;
 import org.elasticsearch.analyzer.tokenfilters.PersianStopFilterFactory;
 import org.elasticsearch.index.analysis.AnalyzerProvider;
@@ -27,15 +28,17 @@ public class ParsiAnalyzerPlugin extends Plugin implements AnalysisPlugin {
         Map<String, AnalysisProvider<AnalyzerProvider<? extends Analyzer>>> analyzers = new HashMap<>();
         analyzers.put("parsi", ParsiAnalyzerProvider::new);
         analyzers.put("parsi_standard", ParsiStandardAnalyzerProvider::new);
+        analyzers.put("parsi_search", ParsiSearchAnalyzerProvider::new);
         return analyzers;
     }
 
     @Override
     public Map<String, AnalysisProvider<TokenFilterFactory>> getTokenFilters() {
-        Map<String, AnalysisProvider<TokenFilterFactory>> tokenFilters = new HashMap();
+        Map<String, AnalysisProvider<TokenFilterFactory>> tokenFilters = new HashMap<>();
         tokenFilters.put("parsi_normalizer", PersianNormalizationFilterFactory::new);
         tokenFilters.put("parsi_stem_filter", PersianStemFilterFactory::new);
         tokenFilters.put("parsi_stop_filter", PersianStopFilterFactory::new);
+        tokenFilters.put("parsi_same_pronunciation_filter", PersianSamePronunciationNormalizerFilterFactory::new);
         return tokenFilters;
     }
 
